@@ -1,0 +1,25 @@
+public void ConnectApplication()
+        {
+            try
+            {
+                string devConnectionString = string.Empty;
+                try
+                {
+                    devConnectionString = Convert.ToString(Environment.GetCommandLineArgs().GetValue(1));
+                }
+                catch
+                {
+                    devConnectionString = "0030002C0030002C00530041005000420044005F00440061007400650076002C0050004C006F006D0056004900490056";
+                }
+                var sboGuiApi = new SAPbouiCOM.SboGuiApi();
+                sboGuiApi.Connect(devConnectionString);
+
+                oApplication = sboGuiApi.GetApplication();
+                oCompany = (SAPbobsCOM.Company)oApplication.Company.GetDICompany();
+                oApplication.StatusBar.SetText(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + " addon connected successfully.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Connect Application Error: " + ex.Message);
+            }
+        }
